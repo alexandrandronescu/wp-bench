@@ -1,0 +1,23 @@
+\chapter{Challenges}
+\label{chapter:chapter3}
+
+WordPressBench was created with a few objectives in mind, the most important requirements being listed below in the first section, along with a brief explanation. The functionalities of the benchmark have emerged as soon as the requirements were settled, so the functionalities present in the graphic interface are described in the second section of this chapter. While building the benchmark we met a few challenges, and  the ones worth mentioning are present in the third section of this chapter, along with the chosen solutions.
+
+\section{Requirements}
+\label{sec:projectdescription}
+
+WordPressBench aims at offering a \textbf{realistic user simulation}. This goal is achieved by generating variable traffic intensity represented by variable number of users at a certain time. In order to provide control over the simulation, the benchmark user can select the fluctuation range of the users number. The realism is also given by using WordPress, a real Web server platform used by tens of millions of users and running on millions of Web servers. It provides complex functionalities, advanced security and a MySQL database. Another aspect contributing to the realism of the user emulation the fact that the user requests are made from different machines.
+
+WordPressBench was designed with a \textbf{distributed architecture} in mind. It follows a master-slave architecture, without over-loading the master and without the risk of becoming a bottleneck. Requests are sent from the slave machines to the Web servers running WordPress, which process the log files with the statistics data.
+
+The \textbf{flexibility of the functionalities} is another major requirement of WordPressBench. This includes the possibility of setting the traffic intensity range through the graphic interface (the number of users). Another setting is defined by the read and write ratio, expressed in percentage, which indicate the predominant type of actions: reading or writing into the database. This benchmark, does not provide fixed configuration, or fixed scales. The results can be reproducible by using the same settings, although the workload data would be different, since it is generated randomly. Though the simulation results on the same set of Web servers, with the same settings, should remain the same.
+
+\section{Functionalities}
+\label{sec:functionalities}
+
+WordPressBench offers a graphic user interface which eases the interaction with the benchmark. The interface allows the start and stop of the simulation, which can be fired at anytime. After pressing the “Start” button, an initiation process will be performed over the database in order to clear the previous data, after which the actual simulation will start. A graph will be shown in real-time, indicating the the time on OX axis and the response time on OY axis. The user running the benchmark has the possibility of choosing the range of  traffic intensity, measured in number of users. The number of users will be fluctuating randomly within this range. Another possible setting for the simulation is the read-write ratio, expressed in percentage. The read and write are the only two atomic actions available, so their percentage is complementary to each other, summing 100\%.
+
+\section{Challenges}
+\label{sec:challenges}
+
+During the development of WordPressBench, we encountered several challenges which will be briefly described in this section. For the workload generator we faced difficulties when trying to login as a registered user. The login was performed using a username and password previously created by an admin user, and it allows extensive actions, like adding new pages, new blogposts, or comment as a registered user. The problem was that not only the cookies needed to be sent back, but also certain HTTP POST methods needed to be used. The solution was to analyze the login WordPress source code and determine which data was expected. TO CONTINUE

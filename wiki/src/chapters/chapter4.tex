@@ -1,0 +1,50 @@
+\chapter{WordPressBench System}
+\label{chapter:chapter4}
+
+
+\section{System Architecture}
+\label{sub-sec:system-architecture}
+
+WordPressBench has a master-slave architecture, with a Master defined by the Controller which creates the workpool with tasks according to the user's settings. The tasks are then executed by the slaves, the Workload Generators. The slaves generate HTTP requests to the Web servers running WordPress. The WordPress server is the unmodified version downloaded from the official WordPress website[].
+
+\section{Components}
+\label{sec:components}
+
+\subsection{WordPress Web Servers}
+\label{sub-sec:wordpress-web-servers}
+
+The WordPress Web Server use Apache servers and use a MySQL database. It also requires to have PHP installed on the machine. We used WordPress version 3.2 available at the development time. It allows users to read blogposts, pages and comments. This can be done by searching by keyword, by author, by date, by category, by viewing recent posts, or simply by browsing each single blogpost. Anonymous users are allowed to post comments by providing their e-mail address. Their information remains in browser's cache through cookies, until the information is overwritten.
+
+Other write operations are allowed only for registered users. After logging in, the users are offered extended edit functionalities, like adding comments to pages and blogposts as registered user, and adding pages or blogposts. Users with 'Administrator' rights have additional functionalities, like adding new users, or clearing the data from the database, operation performed in the initiation stage of the development. TO CONTINUE
+
+\subsection{Workload Generator}
+\label{sub-sec:workload-generator}
+
+The Workload Generator is a component running on slaves machines. It basically contains a Markov matrix with all the possible states and the probabilities to make a transition to another state. 
+
+There are two transition matrices, one for anonymous user, and another for logged-out user. While running, the next states are chosen from the transition matrix, but the information for creating the next URL is gathered from the previous HTML response page.
+
+As was mentioned before, each state has an URL associated, so in order to move to another state, the URL needs to be send to the Web server which retrieve back the pages corresponding to the URL path. URLs have encoded different IDs, or keywords which are extracted from the previous HTML page received from the server. 
+
+In case a user loggs in, the session is maintained through cookies, which need to be sent back to the Web server at each request until the user logs out. There are states which get data from HTTP POST variables, not only from GET variables encoded in URLs. In this case, the slave needs to get the keywords, IDs, from the previus page, and send it along with other random data generated on the fly, and needed by the Web server. 
+
+While running, the Workload Generator gather statistics about the connections, requests and responses. Statistics like response time, number of errors, number of attempts before getting the response, or other such information is stored for each user, and aggregated into log files which are sent to the Master.
+
+\subsection{Controller}
+\label{sub-sec:controller}
+
+\subsection{Graphic Interface}
+\label{sub-sec:graphic-interface}
+
+
+\section{Workflow}
+\label{sec:workflow}
+
+- the connection between components\\
+- how does it work as a whole
+
+
+\section{Tools and Technologies}
+\label{sec:tools-and-technologies}
+
+- the technologies used: WordPress, Apache, MySQL, Java, HTTP protocol, TCP connections
