@@ -7,18 +7,18 @@
 \contentsline {section}{\numberline {3.1}Requirements}{5}{section.3.1}
 \contentsline {section}{\numberline {3.2}Functionalities}{6}{section.3.2}
 \contentsline {section}{\numberline {3.3}Challenges}{6}{section.3.3}
-\contentsline {chapter}{\numberline {4}WordPressBench System}{7}{chapter.4}
-\contentsline {section}{\numberline {4.1}System Architecture}{7}{section.4.1}
-\contentsline {section}{\numberline {4.2}Components}{7}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}WordPress Web Servers}{7}{subsection.4.2.1}
-\contentsline {subsection}{\numberline {4.2.2}Workload Generator}{8}{subsection.4.2.2}
-\contentsline {subsection}{\numberline {4.2.3}Controller}{8}{subsection.4.2.3}
-\contentsline {subsection}{\numberline {4.2.4}Graphic Interface}{8}{subsection.4.2.4}
-\contentsline {section}{\numberline {4.3}Workflow}{8}{section.4.3}
-\contentsline {section}{\numberline {4.4}Tools and Technologies}{8}{section.4.4}
-\contentsline {chapter}{\numberline {5}Evaluation}{9}{chapter.5}
-\contentsline {section}{\numberline {5.1}Evaluation System}{9}{section.5.1}
-\contentsline {section}{\numberline {5.2}Evaluation Results}{9}{section.5.2}
-\contentsline {chapter}{\numberline {6}Conclusion}{10}{chapter.6}
-\contentsline {section}{\numberline {6.1}Future Work}{10}{section.6.1}
-\contentsline {section}{\numberline {6.2}Conclusion}{10}{section.6.2}
+\contentsline {chapter}{\numberline {4}WordPressBench System}{8}{chapter.4}
+\contentsline {section}{\numberline {4.1}System Architecture}{8}{section.4.1}
+\contentsline {section}{\numberline {4.2}Components}{8}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}WordPress Web Servers}{8}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Workload Generator}{9}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}Controller}{9}{subsection.4.2.3}
+\contentsline {subsection}{\numberline {4.2.4}Graphic Interface}{9}{subsection.4.2.4}
+\contentsline {section}{\numberline {4.3}Workflow}{9}{section.4.3}
+\contentsline {section}{\numberline {4.4}Tools and Technologies}{9}{section.4.4}
+\contentsline {chapter}{\numberline {5}Evaluation}{10}{chapter.5}
+\contentsline {section}{\numberline {5.1}Evaluation System}{10}{section.5.1}
+\contentsline {section}{\numberline {5.2}Evaluation Results}{10}{section.5.2}
+\contentsline {chapter}{\numberline {6}Conclusion}{11}{chapter.6}
+\contentsline {section}{\numberline {6.1}Future Work}{11}{section.6.1}
+\contentsline {section}{\numberline {6.2}Conclusion}{11}{section.6.2}
