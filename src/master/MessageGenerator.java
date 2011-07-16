@@ -12,7 +12,7 @@ public class MessageGenerator {
 	}
 	
 	public String startSimulation(int usersNbMin, int usersNbMax, int readWrite) {
-		return COMMAND_START_SIMULATION + usersNbMin + " " + usersNbMax + " " + readWrite;
+		return COMMAND_START_SIMULATION + " " + usersNbMin + " " + usersNbMax + " " + readWrite;
 	}
 	
 	public String endSimulation() {
