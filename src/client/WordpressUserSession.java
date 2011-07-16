@@ -31,8 +31,6 @@ public class WordpressUserSession extends UserSession {
 	private final int STATUS_LOGGED_OUT = 1;
 	private final int STATUS_LOGGED_IN = 2;
 	
-	private final String SEARCH_NO_RESULTS = "No matching search keyword found";
-	
 	public final int STATE_HOMEPAGE = 0;
 	public final int STATE_PAGE = 1;
 	public final int STATE_SEARCH = 2;
@@ -128,14 +126,12 @@ public class WordpressUserSession extends UserSession {
 	private int state;
 	private Stats stats;
 	private Dictionary dictionary = null;
-	private Dictionary keyWordDictionary = null;
 	private int loggedStatus = STATUS_LOGGED_OUT;
 	private int userLevel = USER_LEVEL_EDITOR;
 	int prev = -1;
 
-	public WordpressUserSession(String threadId, URLGenerator URLGen, Dictionary dict, Dictionary keyword,
-			WordpressProperties properties, TransitionTable transitionLoggedOut, TransitionTable transitionLoggedIn, 
-			Stats statistics, String username) {
+	public WordpressUserSession(String threadId, URLGenerator URLGen, Dictionary dict, WordpressProperties properties, 
+			TransitionTable transitionLoggedOut, TransitionTable transitionLoggedIn, Stats statistics, String username) {
 		super(threadId);
 		urlGen = URLGen;
 		this.properties = properties;
@@ -144,7 +140,6 @@ public class WordpressUserSession extends UserSession {
 		this.transitionLoggedIn = new TransitionTable(transitionLoggedIn);
 		this.transition = this.transitionLoggedOut;
 		dictionary = dict;
-		keyWordDictionary = keyword;
 		this.username = username;
 		this.password = username;
 	}
@@ -231,17 +226,16 @@ public class WordpressUserSession extends UserSession {
 			return "";	
 	}
 	
-	public Vector<String> initWebsiteData(){
+	public Vector<String> initWebsiteData(int usersNb){
 		Vector<String> newUsers = new Vector<String>();
 		userLevel = USER_LEVEL_ADMINISTRATOR;
 		username = "admin";
 		password = username;
 		loggedStatus = STATUS_LOGGED_OUT;
 
+		createNewUsers(0, usersNb);
 		try {
 			doState(STATE_LOGIN_SEND_CREDENTIALS);
-			for(int i=0;i<properties.getNumberOfClients();i++)
-				newUsers.add(addUser());
 			for(int i=0;i<3;i++) {
 				doState(STATE_ADD_POST);
 				doState(STATE_ADD_PAGE);
@@ -260,7 +254,26 @@ public class WordpressUserSession extends UserSession {
 		return newUsers;
 	}
 	
-	public String addUser() throws IOException {
+	public Vector<String> createNewUsers(int usersNbMin, int usersNbMax){
+		Vector<String> newUsers = new Vector<String>();
+		userLevel = USER_LEVEL_ADMINISTRATOR;
+		username = "admin";
+		password = username;
+		loggedStatus = STATUS_LOGGED_OUT;
+
+		try {
+			doState(STATE_LOGIN_SEND_CREDENTIALS);
+			for(int i=usersNbMin;i<usersNbMax;i++)
+				newUsers.add(addUser(i));
+			doState(STATE_LOG_OUT);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return newUsers;
+	}
+	
+	public String addUser(int index) throws IOException {
 		Hashtable<String, String> post = new Hashtable<String, String>();
 		WordpressURLGenerator urlGen = (WordpressURLGenerator)this.urlGen;
 		String keyword, username;
@@ -270,7 +283,7 @@ public class WordpressUserSession extends UserSession {
 			lastHTMLReply = callHTTPServer(lastURL);
 			
 			post.clear();
-			username = "user"+rand.nextInt()%1000; // !!!!!!!!!!!!
+			username = "user"+index;
 			post.put("user_login", username);
 			post.put("email", username+"@"+username+".com");
 			post.put("pass1", username);
@@ -748,7 +761,7 @@ public class WordpressUserSession extends UserSession {
 //		} catch (InterruptedException e) {
 //		}
 
-		nbOfTransitions = properties.getMaxNumberOfTransitions();
+		nbOfTransitions = ( rand.nextInt() % ( properties.getMaxNumberOfTransitions() -1 ) ) + 1;
 		startSession = System.currentTimeMillis();
 		// Start from Home Page
 		transitionLoggedOut.resetToInitialState();
