@@ -23,6 +23,7 @@ public class WordpressProperties
   private String webSiteName;
   private int    webSitePort;
   private String scriptPath;
+  private int tcpPort;
 
   // Information about Workload
   private int     numberOfClients;
@@ -90,6 +91,7 @@ public class WordpressProperties
 		try {
 			webSiteName = getProperty("webSiteName");
 			webSitePort = Integer.parseInt(getProperty("webSitePort"));
+			tcpPort = Integer.parseInt(getProperty("tcpPort"));
 			scriptPath = getProperty("scriptPath");
 			numberOfClients = Integer.parseInt(getProperty("numberOfClients"));
 			numberOfStates = Integer.parseInt(getProperty("numberOfStates"));
@@ -137,10 +139,14 @@ public class WordpressProperties
 	  return scriptPath;
   }
   
-  public int getPort() {
+  public int getWebsitePort() {
 	  return webSitePort;
   }
 
+  public int getTcpPort() {
+	  return tcpPort;
+  }
+  
   /**
    * Get the total number of users given in the database_number_of_users field
    *
@@ -231,6 +237,16 @@ public class WordpressProperties
   public int getNumberOfClients()
   {
     return numberOfClients;
+  }
+  
+  /**
+   * Get the total number of clients user sessions to launch in parallel
+   *
+   * @return total number of clients
+   */
+  public void setNumberOfClients(int numberOfClients)
+  {
+    this.numberOfClients = numberOfClients;
   }
 
   /**

@@ -1,6 +1,6 @@
 package master;
 
-public class TaskDaemon extends Daemon{
+public class TaskDaemon extends MasterDaemon{
 	int usersNbMin, usersNbMax, readWrite, command;
 	MessageGenerator msgGen;
 	String logFile, responseCode;
@@ -24,7 +24,7 @@ public class TaskDaemon extends Daemon{
 	}
 	
 	public void endSimulation() {
-		this.command = COMMAND_END_SIMULATION;
+		this.command = COMMAND_GET_LOG;
 		
 	}
 	
@@ -33,13 +33,13 @@ public class TaskDaemon extends Daemon{
 	}
 
 	public void addUsers(int usersNbMin, int usersNbMax) {
-		this.command = COMMAND_END_SIMULATION;
+		this.command = COMMAND_ADD_USERS;
 		this.usersNbMin = usersNbMin;
 		this.usersNbMax = usersNbMax;
 	}
 	
 	public void createNewUsers(int newUsers) {
-		this.command = COMMAND_END_SIMULATION;
+		this.command = COMMAND_CREATE_USERS;
 		this.usersNbMax = newUsers;	
 	}
 	
@@ -67,6 +67,10 @@ public class TaskDaemon extends Daemon{
 				sendMessage(msgGen.endSimulation());
 				responseCode = getMessage();
 				break;
+			case COMMAND_GET_LOG:
+				sendMessage(msgGen.getLog());
+				logFile = getMessage();
+			break;
 			case COMMAND_ADD_USERS:
 				sendMessage(msgGen.addUsers(usersNbMin, usersNbMax));
 				responseCode = getMessage();
@@ -74,10 +78,6 @@ public class TaskDaemon extends Daemon{
 			case COMMAND_CREATE_USERS:
 				sendMessage(msgGen.createUsers(usersNbMax));
 				responseCode = getMessage();
-			break;
-			case COMMAND_GET_LOG:
-				sendMessage(msgGen.getLog());
-				logFile = getMessage();
 			break;
 			default:
 			break;

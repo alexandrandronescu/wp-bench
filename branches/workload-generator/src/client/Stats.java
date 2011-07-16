@@ -1,7 +1,5 @@
 package client;
 
-import java.util.Formatter;
-
 import org.apache.log4j.Logger;
 
  
