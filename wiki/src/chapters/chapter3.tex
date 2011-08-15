@@ -1,7 +1,7 @@
 \chapter{Challenges}
 \label{chapter:chapter3}
 
-Before designing the benchmark, we build up a list of requirements that needed to be satisfied by the benchamark. The first section describes these requirements. The functionalities and the results yeld by the benchmark are described in the second section. In the design phase, we encountered a few impediments while trying to satisfy the requirements. These problems, along with a few generic steps for building a Web hosting benchmark are listed in the third section.
+Before designing the benchmark, we build up a list of requirements that needed to be satisfied by the benchmark. The first section describes these requirements. The functionalities and the results yield by the benchmark are described in the second section. In the design phase, we encountered a few impediments while trying to satisfy the requirements. These problems, along with a few generic steps for building a Web hosting benchmark are listed in the third section.
 
 % WordPressBench was created with a few objectives in mind, the most important requirements being listed below in the first section, along with a brief explanation. The functionalities of the benchmark have emerged as soon as the requirements were settled, so the functionalities present in the graphic interface are described in the second section of this chapter. While building the benchmark we met a few challenges, and  the ones worth mentioning are present in the third section of this chapter, along with the chosen solutions.
 
@@ -18,13 +18,7 @@ it does not over-load the master when a large number of users are added and ther
 \section{Functionalities}
 \label{sec:functionalities}
 
-WordPressBench offers a graphic user interface which eases the interaction with the benchmark. The interface allows the start and stop of the simulation, which can be fired at anytime. After pressing the “Start” button, an initiation process will be performed over the database in order to clear the previous data, after which the actual simulation will start. 
-The interface will generate two types of graphs: 
-\begin{itemize}
- \item time - response time 
- \item time - requests number
-\end{itemize}
-The time will be displayed on OX axis, and the other variable (response time or requests number) on the OY axis.
+WordPressBench does not offer a graphic interface, but generates log files ready to be send input to generate graphs. The log files contain the average response time and the corresponding relative time from the beginning of the simulation when it was measured. The time will be displayed on OX axis, and the average response time on the OY axis.
 The user running the benchmark has the possibility of choosing the range of  traffic intensity, measured in number of users. The number of users will be fluctuating around the specified number. Another possible setting for the simulation is the read-write ratio, expressed in percentage. The read and write are the only two atomic actions available, so their percentage is complementary to each other, summing 100\%.
 
 \section{Challenges}

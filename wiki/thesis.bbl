@@ -2,14 +2,14 @@
 
 \bibitem{TPCW-website}
 TPC-W specification available at
-\url{tpc.org/tpcw/spec/tpcw_V1.8.pdf}.
+\url{tpc.org/tpcw/TPC-W_Wh.pdf}.
 
 \bibitem{RUBBoS-website}
-RUBBoS website:
+RUBBoS website
 \url{jmob.ow2.org/rubbos.html}.
 
 \bibitem{RUBiS-website}
-RUBiS documentation available at
+RUBiS documentation
 \url{rubis.ow2.org/download/rubisva_v1.0.pdf}.
 
 \bibitem{WikiBench-website}
@@ -17,11 +17,11 @@ WikiBench documentation available at
 \url{wikibench.eu/wp-content/uploads/2010/10/van-baaren-thesis.pdf}.
 
 \bibitem{Wordpress-website}
-WordPress documentation available at
-\url{wordpress.org/docs/en/handbook/2.7/}.
+WordPress official website
+\url{wordpress.org/}.
 
 \bibitem{Wordpress-download}
-WordPress platform for download from
+WordPress platform for download at
 \url{wordpress.org/download/}.
 
 \bibitem{Menasce} Daniel A. Menascé, \emph{TPC-W: A Benchmark for E-commerce}, 
@@ -43,3 +43,4 @@ Internet Computing, IEEE , 2007.
 Seventh International Symposium on High-Performance Computer Architecture, 2001.
 
 \end{thebibliography}
+

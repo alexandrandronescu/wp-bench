@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.4.7)  15 AUG 2011 03:46
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.4.7)  15 AUG 2011 16:13
 entering extended mode
  %&-line parsing enabled.
 **thesis.tex
@@ -484,23 +484,12 @@ Chapter 3.
 
 
 
-] (/usr/share/texmf-texlive/tex/latex/ucs/data/uni-32.def
-File: uni-32.def 2004/10/17 UCS: Unicode data U+2000..U+20FF
-)
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 24.
-
-(/usr/share/texmf-texlive/tex/latex/base/omscmr.fd
-File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 24.
- [8]) [9]
+] [8]) [9]
 \openout2 = `src/chapters/chapter4.aux'.
 
-
-(./src/chapters/chapter4.tex
+ (./src/chapters/chapter4.tex
 Chapter 4.
-<src/img/WordPressBench.pdf, id=223, 794.97pt x 614.295pt>
+<src/img/WordPressBench.pdf, id=222, 794.97pt x 614.295pt>
 File: src/img/WordPressBench.pdf Graphic file (type pdf)
 
 <use src/img/WordPressBench.pdf>
@@ -513,7 +502,7 @@ Overfull \hbox (11.68907pt too wide) in paragraph at lines 12--13
 
 
 ] [11 <./src/img/WordPressBench.pdf>]
-<src/img/transitionTable.pdf, id=242, 614.295pt x 794.97pt>
+<src/img/transitionTable.pdf, id=241, 614.295pt x 794.97pt>
 File: src/img/transitionTable.pdf Graphic file (type pdf)
 
 <use src/img/transitionTable.pdf>
@@ -521,7 +510,15 @@ Overfull \hbox (12.84843pt too wide) in paragraph at lines 48--49
  [][] 
  []
 
-[12 <./src/img/transitionTable.pdf>] [13] [14]) [15] [16]
+[12 <./src/img/transitionTable.pdf>]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 64.
+
+(/usr/share/texmf-texlive/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 64.
+ [13] [14] [15]) [16]
 \openout2 = `src/chapters/chapter5.aux'.
 
 
@@ -531,22 +528,22 @@ Chapter 5.
 
 
 
-] <src/img/out0.png, id=306, 642.4pt x 481.8pt>
+] <src/img/out0.png, id=305, 642.4pt x 481.8pt>
 File: src/img/out0.png Graphic file (type png)
  <use src/img/out0.png>
-<src/img/out1.png, id=307, 642.4pt x 481.8pt>
+<src/img/out1.png, id=306, 642.4pt x 481.8pt>
 File: src/img/out1.png Graphic file (type png)
  <use src/img/out1.png>
-<src/img/out2.png, id=308, 642.4pt x 481.8pt>
+<src/img/out2.png, id=307, 642.4pt x 481.8pt>
 File: src/img/out2.png Graphic file (type png)
  <use src/img/out2.png>
-<src/img/out3.png, id=309, 642.4pt x 481.8pt>
+<src/img/out3.png, id=308, 642.4pt x 481.8pt>
 File: src/img/out3.png Graphic file (type png)
  <use src/img/out3.png>
-<src/img/out4.png, id=310, 642.4pt x 481.8pt>
+<src/img/out4.png, id=309, 642.4pt x 481.8pt>
 File: src/img/out4.png Graphic file (type png)
  <use src/img/out4.png>
-<src/img/out5.png, id=311, 642.4pt x 481.8pt>
+<src/img/out5.png, id=310, 642.4pt x 481.8pt>
 File: src/img/out5.png Graphic file (type png)
  <use src/img/out5.png>) [18 <./src/img/out0.png (PNG copy)>] [19 <./src/img/ou
 t1.png (PNG copy)> <./src/img/out2.png (PNG copy)>] [20 <./src/img/out3.png (PN
@@ -559,9 +556,10 @@ Chapter 6.
 
 
 
-]) [23]) (./thesis.bbl
+] [23]) [24]) (./thesis.bbl
 LaTeX Font Info:    Try loading font information for T1+cmss on input line 5.
- (/usr/share/texmf-texlive/tex/latex/base/t1cmss.fd
+
+(/usr/share/texmf-texlive/tex/latex/base/t1cmss.fd
 File: t1cmss.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 Underfull \hbox (badness 1394) in paragraph at lines 16--18
@@ -573,17 +571,17 @@ Underfull \hbox (badness 1394) in paragraph at lines 16--18
 File: uni-0.def 2004/10/17 UCS: Unicode data U+0000..U+00FF
 ))
 No file thesis.ind.
-[24
+[25
 
 
 ] (./thesis.aux (./src/chapters/chapter1.aux) (./src/chapters/chapter2.aux)
 (./src/chapters/chapter3.aux) (./src/chapters/chapter4.aux)
 (./src/chapters/chapter5.aux) (./src/chapters/chapter6.aux)) ) 
 Here is how much of TeX's memory you used:
- 8071 strings out of 495061
- 113726 string characters out of 1182622
+ 7824 strings out of 495061
+ 110923 string characters out of 1182622
  191380 words of memory out of 3000000
- 10952 multiletter control sequences out of 15000+50000
+ 10707 multiletter control sequences out of 15000+50000
  14004 words of font info for 33 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  45i,12n,45p,1409b,590s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -596,9 +594,9 @@ jknappen/ec/ecrm1200.600pk> </home/alexandra/.texmf-var/fonts/pk/ljfour/jknappe
 n/ec/ecbx1728.600pk> </home/alexandra/.texmf-var/fonts/pk/ljfour/jknappen/ec/ec
 bx2488.600pk> </home/alexandra/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1728.
 600pk></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on thesis.pdf (28 pages, 344065 bytes).
+Output written on thesis.pdf (29 pages, 346768 bytes).
 PDF statistics:
- 754 PDF objects out of 1000 (max. 8388607)
- 75 named destinations out of 1000 (max. 500000)
+ 755 PDF objects out of 1000 (max. 8388607)
+ 76 named destinations out of 1000 (max. 500000)
  266 words of extra memory for PDF output out of 10000 (max. 10000000)
 
