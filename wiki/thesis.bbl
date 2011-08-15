@@ -1,3 +1,45 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{1}
+
+\bibitem{TPCW-website}
+TPC-W specification available at
+\url{tpc.org/tpcw/spec/tpcw_V1.8.pdf}.
+
+\bibitem{RUBBoS-website}
+RUBBoS website:
+\url{jmob.ow2.org/rubbos.html}.
+
+\bibitem{RUBiS-website}
+RUBiS documentation available at
+\url{rubis.ow2.org/download/rubisva_v1.0.pdf}.
+
+\bibitem{WikiBench-website}
+WikiBench documentation available at
+\url{wikibench.eu/wp-content/uploads/2010/10/van-baaren-thesis.pdf}.
+
+\bibitem{Wordpress-website}
+WordPress documentation available at
+\url{wordpress.org/docs/en/handbook/2.7/}.
+
+\bibitem{Wordpress-download}
+WordPress platform for download from
+\url{wordpress.org/download/}.
+
+\bibitem{Menasce} Daniel A. Menascé, \emph{TPC-W: A Benchmark for E-commerce}, 
+IEEE Internet Computer, May/June 2002.
+
+\bibitem{Smith} Wayne D. Smith, \emph{TPC-W*: Benchmarking An Ecommerce Solution}, 
+Revision 1.2. Intel Corporation.
+
+\bibitem{Amza} Cristiana Amza, Alan L.Cox, Willy Zwaenepoel, 
+\emph{Conflict-Aware Scheduling for Dynamic Content Applications}, 
+Fifth USENIX Symposium on Internet Technologies and Systems, 2003.
+
+\bibitem{Pierre} Swaminathan Sivasubramanian, Guillaume Pierre, Gustavo Alonso, Maarten van Steen, 
+\emph{Analysis of Caching and Replication Strategies for Web Applications}, 
+Internet Computing, IEEE , 2007.
+
+\bibitem{Cain} Harold W. Cain, Ravi Rajwar Morris Marden, Mikko H. Lipasti, 
+\emph{An Architectural Evaluation of Java TPC-W}, 
+Seventh International Symposium on High-Performance Computer Architecture, 2001.
 
 \end{thebibliography}

@@ -7,11 +7,20 @@ A level-1 auxiliary file: src/chapters/chapter4.aux
 A level-1 auxiliary file: src/chapters/chapter5.aux
 A level-1 auxiliary file: src/chapters/chapter6.aux
 The style file: plain.bst
-I found no \citation commands---while reading file thesis.aux
 Database file #1: src/main.bib
+Warning--I didn't find a database entry for "TPCW-website"
+Warning--I didn't find a database entry for "RUBBoS-website"
+Warning--I didn't find a database entry for "RUBiS-website"
+Warning--I didn't find a database entry for "Wordpress-website"
+Warning--I didn't find a database entry for "Menasce"
+Warning--I didn't find a database entry for "Pierre"
+Warning--I didn't find a database entry for "Amza"
+Warning--I didn't find a database entry for "Smith"
+Warning--I didn't find a database entry for "Cain"
+Warning--I didn't find a database entry for "Wordpress-download"
 You've used 0 entries,
             2118 wiz_defined-function locations,
-            503 strings with 4143 characters,
+            523 strings with 4343 characters,
 and the built_in function-call counts, 18 in all, are:
 = -- 0
 > -- 0
@@ -50,4 +59,4 @@ warning$ -- 0
 while$ -- 0
 width$ -- 0
 write$ -- 2
-(There was 1 error message)
+(There were 10 warnings)

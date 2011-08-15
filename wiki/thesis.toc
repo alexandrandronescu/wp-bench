@@ -2,26 +2,26 @@
 \contentsline {chapter}{Acknowledgements}{i}{section*.1}
 \contentsline {chapter}{Abstract}{ii}{chapter*.2}
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}
-\contentsline {chapter}{\numberline {2}Related Work}{3}{chapter.2}
-\contentsline {section}{\numberline {2.1}TPC-W}{3}{section.2.1}
-\contentsline {section}{\numberline {2.2}RUBBoS and RUBBiS}{4}{section.2.2}
-\contentsline {section}{\numberline {2.3}WikiBench}{4}{section.2.3}
-\contentsline {chapter}{\numberline {3}Challenges}{6}{chapter.3}
-\contentsline {section}{\numberline {3.1}Requirements}{6}{section.3.1}
-\contentsline {section}{\numberline {3.2}Functionalities}{7}{section.3.2}
-\contentsline {section}{\numberline {3.3}Challenges}{7}{section.3.3}
-\contentsline {chapter}{\numberline {4}WordPressBench System}{9}{chapter.4}
-\contentsline {section}{\numberline {4.1}System Architecture}{9}{section.4.1}
-\contentsline {section}{\numberline {4.2}Components}{9}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}WordPress Web Servers}{9}{subsection.4.2.1}
-\contentsline {subsection}{\numberline {4.2.2}Workload Generator}{10}{subsection.4.2.2}
-\contentsline {subsection}{\numberline {4.2.3}Controller}{12}{subsection.4.2.3}
-\contentsline {subsection}{\numberline {4.2.4}Graphic Interface}{13}{subsection.4.2.4}
-\contentsline {section}{\numberline {4.3}Workflow}{13}{section.4.3}
-\contentsline {section}{\numberline {4.4}Tools and Technologies}{13}{section.4.4}
-\contentsline {chapter}{\numberline {5}Evaluation}{14}{chapter.5}
-\contentsline {section}{\numberline {5.1}Evaluation System}{14}{section.5.1}
-\contentsline {section}{\numberline {5.2}Evaluation Results}{14}{section.5.2}
-\contentsline {chapter}{\numberline {6}Conclusion}{15}{chapter.6}
-\contentsline {section}{\numberline {6.1}Future Work}{15}{section.6.1}
-\contentsline {section}{\numberline {6.2}Conclusion}{15}{section.6.2}
+\contentsline {chapter}{\numberline {2}Related Work}{4}{chapter.2}
+\contentsline {section}{\numberline {2.1}TPC-W}{4}{section.2.1}
+\contentsline {section}{\numberline {2.2}RUBBoS and RUBiS}{5}{section.2.2}
+\contentsline {section}{\numberline {2.3}WikiBench}{6}{section.2.3}
+\contentsline {chapter}{\numberline {3}Challenges}{7}{chapter.3}
+\contentsline {section}{\numberline {3.1}Requirements}{7}{section.3.1}
+\contentsline {section}{\numberline {3.2}Functionalities}{8}{section.3.2}
+\contentsline {section}{\numberline {3.3}Challenges}{8}{section.3.3}
+\contentsline {chapter}{\numberline {4}The WordPressBench System}{10}{chapter.4}
+\contentsline {section}{\numberline {4.1}System Architecture}{10}{section.4.1}
+\contentsline {section}{\numberline {4.2}Components}{10}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}WordPress Web Servers}{10}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Workload Generator}{11}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}Controller}{13}{subsection.4.2.3}
+\contentsline {section}{\numberline {4.3}Component Connections}{14}{section.4.3}
+\contentsline {section}{\numberline {4.4}Workflow}{15}{section.4.4}
+\contentsline {section}{\numberline {4.5}Tools and Technologies}{15}{section.4.5}
+\contentsline {chapter}{\numberline {5}Evaluation}{17}{chapter.5}
+\contentsline {section}{\numberline {5.1}Evaluation System}{17}{section.5.1}
+\contentsline {section}{\numberline {5.2}Evaluation Results}{17}{section.5.2}
+\contentsline {chapter}{\numberline {6}Conclusion}{22}{chapter.6}
+\contentsline {section}{\numberline {6.1}Future Work}{22}{section.6.1}
+\contentsline {section}{\numberline {6.2}Conclusion}{23}{section.6.2}
