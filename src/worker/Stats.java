@@ -1,7 +1,6 @@
 package worker;
 
 import java.io.*;
-
 import org.apache.log4j.Logger;
 
  
@@ -269,9 +268,7 @@ public class Stats
     int countAbove = 0;
     double averageTime = 0;
 
-    System.out.println(title+" statistics");
     String format = "%-20s %10s %10s %10s %10sms %10sms %10sms";
-    //System.out.println("State name\t% of total\tCount\tErrors\tMinimum Time\tMaximum Time\tAverage Time");
     System.out.println(String.format(format, "State name", "% of total", "Count", "Errors", "Minimum", "Maximum", "Average Time"));
     // Display statistics for each state
     for (int i = 0 ; i < getNbOfStats() ; i++)
@@ -333,7 +330,6 @@ public class Stats
 
     logFileHandle.println(title+" statistics");
     String format = "%-20s %10s %10s %10s %10sms %10sms %10sms";
-    //System.out.println("State name\t% of total\tCount\tErrors\tMinimum Time\tMaximum Time\tAverage Time");
     logFileHandle.println(String.format(format, "State name", "% of total", "Count", "Errors", "Minimum", "Maximum", "Average Time"));
     // Display statistics for each state
     for (int i = 0 ; i < getNbOfStats() ; i++)

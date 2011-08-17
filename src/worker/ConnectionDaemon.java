@@ -3,6 +3,12 @@ package worker;
 import java.io.*;
 import java.net.*;
 
+/**
+ * Receives new messages from controller and sends acknowledgement or logfile back.
+ * 
+ * @author <a href="mailto:a.andronescu@student.vu.nl">Alexandra Andronescu</a>
+ */
+
 public class ConnectionDaemon {
 	ServerSocket welcomeSocket = null;
 	BufferedReader inFromClient = null;
@@ -11,6 +17,12 @@ public class ConnectionDaemon {
 	Socket connectionSocket = null;
 	private int port;
 	
+	/**
+	 * Creates a new <code>ConnectionDaemon</code> instance.
+	 * A new socket is created for waiting new connections.
+	 *
+	 * @param port waiting port
+	 */
 	public ConnectionDaemon(int port) {
 		super();
 		this.port = port;
@@ -22,6 +34,9 @@ public class ConnectionDaemon {
 		}
 	}
 	
+	/**
+	 * Waits connections from the controller.
+	 */
 	protected void waitForConnection () {
 		try {
 			if(welcomeSocket != null) {
@@ -37,6 +52,9 @@ public class ConnectionDaemon {
 		}
 	}
 	
+	/**
+	 * Closes the connection with the controller.
+	 */
 	protected void closeConnection () {
 		try {
 			if(connectionSocket != null) {
@@ -48,6 +66,11 @@ public class ConnectionDaemon {
 		}
 	}
 	
+	/**
+	 * Handles the connection from the controller.
+	 * 
+	 * @return message received from controller
+	 */
 	protected String getMessage () {
 		String message = null;
 		try {
@@ -67,6 +90,12 @@ public class ConnectionDaemon {
 		return message;
 	}
 	
+	/**
+	 * Sends response message to the controller.
+	 * 
+	 * @param message message to be sent
+	 * 
+	 */
 	protected void sendMessage (String message) {
 		try {
 			if(welcomeSocket != null && connectionSocket != null)
@@ -77,6 +106,12 @@ public class ConnectionDaemon {
 		}
 	}
 	
+	/**
+	 * Sends logfile to the controller.
+	 * 
+	 * @param fileName logfile name
+	 * 
+	 */
 	protected void sendFile (String fileName) {
 		try {
 			if(welcomeSocket != null && connectionSocket != null) {

@@ -4,23 +4,31 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Random;
 
+/**
+ * Dictionary class for generating random dictionary words and paragraphs.
+ */
+
 public class Dictionary {
-	
 	String words[];
 	Random rand = new Random();
+	
+	/**
+	 * Creates a new <code>Dictionary</code> instance.
+	 * Reads dictionary words.
+	 *
+	 * @param filename text file containing dictionary words
+	 */
+	
 	public Dictionary(String filename) throws IOException {
-		FileReader reader = new FileReader(filename);
-		BufferedReader br = new BufferedReader(reader);
+		BufferedReader br = new BufferedReader(new FileReader(filename));
 		int count = 0;
 		while(br.readLine() != null) {
 			count++;
 		}
 		br.close();
-		reader.close();
 		words = new String[count];
 		
-		reader = new FileReader(filename);
-		br = new BufferedReader(reader);
+		br = new BufferedReader(new FileReader(filename));
 		int pos = 0;
 		for(int i = 0; i < count; i++) {
 			words[i] = br.readLine();
@@ -34,9 +42,21 @@ public class Dictionary {
 		words = d.words;
 	}
 	
+	/**
+	 * Generates random dictionary word.
+	 *
+	 */
+	
 	public String getWord() {
 		return words[rand.nextInt(words.length)];
 	}
+	
+	/**
+	 * Generates paragraph with random dictionary words.
+	 *
+	 * @param length paragraph length
+	 * @return generated paragraph
+	 */
 	public String getParagraph(int length) throws IOException {
 		String sentence = "";
 		int punctFreq = rand.nextInt(10) + 4;
@@ -48,6 +68,11 @@ public class Dictionary {
 		}
 		return sentence;
 	}
+	
+	/**
+	 * Generates random punctuation.
+	 *
+	 */
 	
 	public String getPunctuation() {
 		String word = null;

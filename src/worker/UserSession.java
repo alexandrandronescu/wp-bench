@@ -1,30 +1,28 @@
 package worker;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpCookie;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.io.*;
+import java.net.*;
 import java.util.*;
-
-//import org.apache.log4j.Logger;
-
 import sun.net.www.protocol.http.HttpURLConnection;
 
+/**
+ * Emulates a generic HTTP user session with a Web server.
+ * 
+ * @author <a href="mailto:a.andronescu@student.vu.nl">Alexandra Andronescu</a> and <a href="mailto:cecchet@rice.edu">Emmanuel Cecchet</a> and <a href="mailto:julie.marguerite@inrialpes.fr">Julie Marguerite</a>
+ * @version 1.0
+ */
+
 public abstract class UserSession extends Thread {
-	// session
-	protected String lastHTMLReply = null; // last HTML reply received from
-	protected Random rand = new Random(); // random number generator
-	protected URL lastURL = null; // Last accessed URL
+	protected String lastHTMLReply = null;	// last HTML reply received from
+	protected Random rand = new Random();	// random number generator
+	protected URL lastURL = null;			// Last accessed URL
 	protected int state;
 	
 	protected URLGenerator urlGen = null; // URL generator corresponding to the
 	
-	protected int userId; // User id for the current session
-	protected String username = null; // User name for the current session
-	protected String password = null; // User password for the current session
+	protected int userId; 				// User id for the current session
+	protected String username = null;	// User name for the current session
+	protected String password = null;	// User password for the current session
 	
 	protected Hashtable<String, HttpCookie> cookies;
 	
@@ -48,15 +46,20 @@ public abstract class UserSession extends Thread {
 		cookies = null;
 	}
 
+	/**
+	 * Call the HTTP Server according to the given URL and get the reply
+	 * 
+	 * @param url URL to access
+	 * @param params pairs to be sent with POST method
+	 *  
+	 * @return <code>String</code> containing the web server reply (HTML file)
+	 * @throws UnsupportedEncodingException 
+	 */
 	protected String callHTTPServer(URL url, Hashtable<String, String> params) throws UnsupportedEncodingException {
-//		if(params != null)
-//			System.out.println("Going to request " + url.toString() + ":" + params.toString());
-//		else
-//			System.out.println(url.toString() + ":{}");
 		String HTMLReply = "";
 		String postData = "";
 		HttpURLConnection connection = null;
-		BufferedInputStream in = null;
+		BufferedInputStream in = new BufferedInputStream(null);
 		PrintWriter out = null;
 		int retry = 0;
 		boolean first = true;
@@ -97,10 +100,10 @@ public abstract class UserSession extends Thread {
 							cookie += "; ";
 					}
 					connection.setRequestProperty("Cookie", cookie);
-					System.out.println("Sending COOKIE: " + cookie);
 				}
 				connection.setRequestProperty("User-Agent","Mozilla/5.0 ( compatible ) ");
 				connection.setRequestProperty("Accept","*/*");
+				
 				// Send Request
 				if (params != null) {
 					connection.setDoOutput(true);
@@ -139,28 +142,21 @@ public abstract class UserSession extends Thread {
 						 }
 					}
 				}
-				//System.out.println("Receiving COOKIEs: " + cookies);
-//				if(connection.getHeaderFields().size() != 0)
-//					System.out.println(connection.getHeaderFields());
 				
-				System.out.println("Response code: " + connection.getResponseCode());
 				if(connection.getResponseCode() == 403) {
 					try {
-						System.out.println("Response Message:" + connection.getResponseMessage());
 						Thread.sleep(8000);
 					} catch (InterruptedException e) {
 					}
 				}
 				if(connection.getResponseCode() == 404) {
-						System.out.println("Response Message:" + connection.getResponseMessage());
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+					}
 				}
 				if(connection.getResponseCode() == 302) {
-					System.out.println("Response Message:" + connection.getResponseMessage());
-					System.out.println("Redirect From: " + url.toString());
-					System.out.print("Redirect To: " + connection.getHeaderField("Location"));
-					
 					if((url.toString()).compareTo(connection.getHeaderField("Location")) != 0) {
-						System.out.println(" ------ Redirect!");
 						try {
 							Thread.sleep(8000);
 						} catch (InterruptedException e) {
@@ -201,6 +197,7 @@ public abstract class UserSession extends Thread {
 			if (in != null)
 				in.close();
 		} catch (IOException ioe) {
+			ioe.printStackTrace();
 		}
 		if (retry == 5)
 			return null;
@@ -209,7 +206,7 @@ public abstract class UserSession extends Thread {
 		Vector<String> images = new Vector<String>();
 		int index = HTMLReply.indexOf("<IMG SRC=\"");
 		while (index != -1) {
-			int startQuote = index + 10; // 10 equals to length of <IMG SRC"
+			int startQuote = index + 10;
 			int endQuote = HTMLReply.indexOf("\"", startQuote + 1);
 			images.add(HTMLReply.substring(startQuote, endQuote));
 			index = HTMLReply.indexOf("<IMG SRC=\"", endQuote);
@@ -230,7 +227,6 @@ public abstract class UserSession extends Thread {
 			images.removeElementAt(0);
 		}
 		
-//		System.out.println(HTMLReply);
 		index = HTMLReply.indexOf("MASSIVE FAILURE");
 		if(index != -1) {
 			System.err.println("ERROR in " + url + " " + HTMLReply.substring(index, index + "MASSIVE FAILURE".length() + 2));

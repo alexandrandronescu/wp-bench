@@ -1,5 +1,10 @@
 package worker;
 
+/**
+ * Maintains constant user sessions.
+ * 
+ * @author <a href="mailto:a.andronescu@student.vu.nl">Alexandra Andronescu</a>
+ */
 public class ConstantUsers extends Thread {
 	boolean running = true;
 	ClientEmulator client;
@@ -23,7 +28,6 @@ public class ConstantUsers extends Thread {
 	
 	public void run() {
 		while(true) {
-			System.out.println("sessions.size()="+client.sessions.size() + " nbOfUsers="+client.nbOfUsers);
 			while ( client.sessions.size() != client.nbOfUsers ) {
 				for (int index=0; index < client.nbOfUsers; index++) {
 					if (!client.sessions.elementAt(index).isAlive())
@@ -33,7 +37,7 @@ public class ConstantUsers extends Thread {
 			try{
 				Thread.sleep(5000);
 			}catch (Exception e) {
-				// TODO: handle exception
+				System.err.println("Error sleeping!");
 			}
 		}
 	}

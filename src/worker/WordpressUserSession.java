@@ -1,15 +1,10 @@
 package worker;
 
 import java.io.IOException;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.MatchResult;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.sql.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
 
 import org.apache.log4j.Logger;
 
@@ -19,11 +14,10 @@ import worker.TransitionTable;
 
 
 /**
- * RUBBoS user session emulator. This class plays a random user session
+ * WordPressBench user session emulator. This class plays a random user session
  * emulating a Web browser.
  * 
- * @author <a href="mailto:cecchet@rice.edu">Emmanuel Cecchet</a> and <a
- *         href="mailto:julie.marguerite@inrialpes.fr">Julie Marguerite</a>
+ * @author <a href="mailto:a.andronescu@student.vu.nl">Alexandra Andronescu</a> and <a href="mailto:cecchet@rice.edu">Emmanuel Cecchet</a> and <a href="mailto:julie.marguerite@inrialpes.fr">Julie Marguerite</a>
  * @version 1.0
  */
 public class WordpressUserSession extends UserSession {
@@ -123,7 +117,7 @@ public class WordpressUserSession extends UserSession {
 
 	private WordpressProperties properties = null; // access to wordpress.properties
 	private TransitionTable transition = null; // transition table user for this
-	private TransitionTable transitionLoggedOut = null; // transition table user for this
+	private TransitionTable transitionLoRo = null; // transition table user for this
 	private TransitionTable transitionLoggedIn = null; // transition table user for this
 	private int state;
 	private Stats stats;
@@ -133,24 +127,46 @@ public class WordpressUserSession extends UserSession {
 	private int userLevel = USER_LEVEL_EDITOR;
 	int prev = -1;
 	long initialTime;
-
-	public WordpressUserSession(URLGenerator URLGen, LogDaemon logDaemon, Dictionary dict, WordpressProperties properties, 
-			TransitionTable transitionLoggedOut, TransitionTable transitionLoggedIn, Stats statistics, String username, long initialTime) {
+	
+	/**
+	 * Creates a new <code>WordpressUserSession</code> instance.
+	 * It reads the properties, transition tables, credentials etc.
+	 * 
+	 * @param URLGen URL generator engine
+	 * @param logDaemon data logger
+	 * @param dictionary words and paragraphs generator
+	 * @param properties configuration file properties
+	 * @param transitionLoggedOut transition table for logged-out or read-only user
+	 * @param transitionLoggedIn transition table for logged-in
+	 * @param statistics stats info
+	 * @param username current user credentials
+	 * @param initialTime start time of the simulation
+	 * 
+	 */
+	public WordpressUserSession(URLGenerator URLGen, LogDaemon logDaemon, Dictionary dictionary, 
+			WordpressProperties properties, TransitionTable transitionLoRo, TransitionTable transitionLoggedIn, 
+			Stats statistics, String username, long initialTime) {
 		super(username);
 		urlGen = URLGen;
 		this.properties = properties;
 		stats = statistics;
-		this.transitionLoggedOut = new TransitionTable(transitionLoggedOut);
+		this.transitionLoRo = new TransitionTable(transitionLoRo);
 		this.transitionLoggedIn = new TransitionTable(transitionLoggedIn);
-		this.transition = this.transitionLoggedOut;
-		dictionary = dict;
+		this.transition = this.transitionLoRo;
+		this.dictionary = dictionary;
 		this.username = username;
 		this.password = username;
 		this.logDaemon = logDaemon;
 		this.initialTime = initialTime;
 	}
 
-	// get IDs
+	/**
+	 * Extracts an ID from the previous HTML response received from WordPress Web server.
+	 * 
+	 * @param regex regular expression to be matched in the HTML request
+	 * 
+	 * @return one of the IDs found, chosen randomly
+	 */
 	private int extractIDFromHTML(String regex) {
 		if (lastHTMLReply == null) {
 			return 0;
@@ -175,6 +191,13 @@ public class WordpressUserSession extends UserSession {
 		}
 	}
 	
+	/**
+	 * Extracts multiple IDs from the previous HTML response received from WordPress Web server.
+	 * 
+	 * @param regex regular expression to be matched in the HTML request
+	 * 
+	 * @return all IDs found
+	 */
 	private Vector<Object> extractMultipleIDFromHTML(String regex) {
 		if (lastHTMLReply == null) {
 			return null;
@@ -208,6 +231,13 @@ public class WordpressUserSession extends UserSession {
 		return IDValues;
 	}
 	
+	/**
+	 * Extracts a word from the previous HTML response received from WordPress Web server.
+	 * 
+	 * @param regex regular expression to be matched in the HTML request
+	 * 
+	 * @return one of the words found, chosen randomly
+	 */
 	private String extractWordFromHTML(String regex) {
 		if (lastHTMLReply == null) {
 			return null;
@@ -232,6 +262,14 @@ public class WordpressUserSession extends UserSession {
 			return "";	
 	}
 	
+	/**
+	 * Creates new user accounts within a username range.
+	 * 
+	 * @param usersNbMin minimum username ID
+	 * @param usersNbMax maximum username ID
+	 * 
+	 * @return list of newly created users
+	 */
 	public Vector<String> createNewUsers(int usersNbMin, int usersNbMax){
 		Vector<String> newUsers = new Vector<String>();
 		long stopTime, startTime;
@@ -249,7 +287,8 @@ public class WordpressUserSession extends UserSession {
 				newUsers.add(addUser(i));
 			
 			stopTime = System.currentTimeMillis();
-			logDaemon.log(TimeUnit.MILLISECONDS.toSeconds(stopTime - initialTime), (stopTime - startTime), "INIT");
+			logDaemon.log(TimeUnit.MILLISECONDS.toSeconds(stopTime - initialTime), 
+							(stopTime - startTime), "INIT");
 
 			doState(STATE_LOG_OUT);
 		} catch (IOException e) {
@@ -259,17 +298,23 @@ public class WordpressUserSession extends UserSession {
 		return newUsers;
 	}
 	
-	public String addUser(int index) throws IOException {
+	/**
+	 * Creates a new user account.
+	 * 
+	 * @param userID username ID
+	 * 
+	 * @return username of the new user
+	 */
+	public String addUser(int userID) throws IOException {
 		Hashtable<String, String> post = new Hashtable<String, String>();
 		WordpressURLGenerator urlGen = (WordpressURLGenerator)this.urlGen;
 		String keyword, username;
 		if(userLevel == USER_LEVEL_ADMINISTRATOR) {
 			lastURL = urlGen.newUser();
-			System.out.println(" Link: " + lastURL);
 			lastHTMLReply = callHTTPServer(lastURL);
 			
 			post.clear();
-			username = "user"+index;
+			username = "user"+userID;
 			post.put("user_login", username);
 			post.put("email", username+"@"+username+".com");
 			post.put("pass1", username);
@@ -282,13 +327,16 @@ public class WordpressUserSession extends UserSession {
 			post.put("noconfirmation", "true");
 
 			lastURL = urlGen.newUser();
-			System.out.println("  Request page for STATE_ADD_USER! Link: " + lastURL + " USER:" + post);
 			lastHTMLReply = callHTTPServer(lastURL, post);
 			return username;
 		}
 		return null;
 	}
 	
+	/**
+	 * Deletes all data from WordPress server MySQL database.
+	 * 
+	 */
 	public void deleteWebsiteData() {
 		long stopTime, startTime;
 		userLevel = USER_LEVEL_ADMINISTRATOR;
@@ -302,12 +350,20 @@ public class WordpressUserSession extends UserSession {
 			doState(STATE_HOMEPAGE);
 			doState(STATE_LOG_OUT);
 			stopTime = System.currentTimeMillis();
-			logDaemon.log(TimeUnit.MILLISECONDS.toSeconds(stopTime - initialTime), (stopTime - startTime), "INIT");
+			logDaemon.log(TimeUnit.MILLISECONDS.toSeconds(stopTime - initialTime), 
+							(stopTime - startTime), "INIT");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Simulates a given state. 
+	 * Prepares the URL with all the needed data, sends a request to the WordPress 
+	 * Web server for the state and received the HTML response back.
+	 * 
+	 * @param state number of the state to be performed
+	 */
 	public void doState(int state) throws IOException {
 		int pageID;
 		String paragraph;
@@ -319,58 +375,45 @@ public class WordpressUserSession extends UserSession {
 			logger.warn("end of simulation");
 			return;
 		}
-		
-//		NO
-//		if (lastHTMLReply != null) {
-//			if (lastHTMLReply.indexOf("Sorry") != -1) // Nothing matched the
-//				// request, we have to go back
-//				state = transition.backToPreviousState();
-//		}
+
 		WordpressURLGenerator urlGen = (WordpressURLGenerator)this.urlGen;
 		switch (state) {
 		case -1: // An error occured, reset to home page
-			this.transitionLoggedOut.resetToInitialState();
+			this.transitionLoRo.resetToInitialState();
 			this.transitionLoggedIn.resetToInitialState();
-			this.transition = this.transitionLoggedOut;
+			this.transition = this.transitionLoRo;
 		case STATE_HOMEPAGE:
 			lastURL = urlGen.homePage();
-			System.out.println(" Request page for STATE_HOMEPAGE! Link: " + lastURL);
 			lastHTMLReply = callHTTPServer(lastURL);
 			break;
 		case STATE_PAGE:
 			pageID = extractIDFromHTML(REGEX[STATE_PAGE]);
 			lastURL = urlGen.page(pageID);
-			System.out.println(" Request page for STATE_PAGE! Link: " + lastURL);
 			lastHTMLReply = callHTTPServer(lastURL);
 			break;
 		case STATE_SEARCH:
 			keyword = dictionary.getWord();
 			lastURL = urlGen.search(keyword);
-			System.out.println(" Request page for STATE_SEARCH! Link: " + lastURL);
 			lastHTMLReply = callHTTPServer(lastURL);
 			break;	
 		case STATE_BLOGPOST:
 			pageID = extractIDFromHTML(REGEX[STATE_BLOGPOST]);
 			lastURL = urlGen.blogpost(pageID);
-			System.out.println(" Request page for STATE_BLOGPOST! Link: " + lastURL);
 			lastHTMLReply = callHTTPServer(lastURL);
 			break;
 		case STATE_ARCHIVE_MONTHLY:
 			pageID = extractIDFromHTML(REGEX[STATE_ARCHIVE_MONTHLY]);
 			lastURL = urlGen.monthlyArchive(pageID);
-			System.out.println(" Request page for STATE_ARCHIVE_MONTHLY! Link: " + lastURL);
 			lastHTMLReply = callHTTPServer(lastURL);
 			break;
 		case STATE_CATEGORY:
 			keyword = extractWordFromHTML(REGEX[STATE_CATEGORY]);
 			lastURL = urlGen.category(keyword);
-			System.out.println(" Request page for STATE_CATEGORY! Link: " + lastURL);
 			lastHTMLReply = callHTTPServer(lastURL);
 			break;		
 		case STATE_AUTHOR:
 			pageID = extractIDFromHTML(REGEX[STATE_AUTHOR]);
 			lastURL = urlGen.author(pageID);
-			System.out.println(" Request page for STATE_AUTHOR! Link: " + lastURL);
 			lastHTMLReply = callHTTPServer(lastURL);
 			break;
 		case STATE_BLOGPOST_PAGED:
@@ -381,7 +424,6 @@ public class WordpressUserSession extends UserSession {
 					lastURL = urlGen.blogpostPaged(0);
 				else
 					lastURL = urlGen.blogpostPaged(pageID);
-				System.out.println(" Request page for STATE_BLOGPOST_PAGED! Link: " + lastURL);
 				lastHTMLReply = callHTTPServer(lastURL);
 			}
 			else {
@@ -399,7 +441,6 @@ public class WordpressUserSession extends UserSession {
 					lastURL = urlGen.searchPaged(ids.get(0).toString(), 0);
 				else if(ids.get(0).toString()!="" && ids.get(1).toString()!="")
 					lastURL = urlGen.searchPaged(ids.get(0).toString(), Integer.parseInt(ids.get(1).toString()));
-				System.out.println(" Request page for STATE_SEARCH_PAGED! Link: " + lastURL);
 				lastHTMLReply = callHTTPServer(lastURL);
 			}
 			else
@@ -414,8 +455,8 @@ public class WordpressUserSession extends UserSession {
 				else if(Integer.parseInt(ids.get(1).toString()) == -1)
 					lastURL = urlGen.monthlyArchivePaged(ids.get(0).toString(), 0);
 				else if(ids.get(0).toString()!="" && ids.get(1).toString()!="")
-					lastURL = urlGen.monthlyArchivePaged(ids.get(0).toString(), Integer.parseInt(ids.get(1).toString()));
-				System.out.println(" Request page for STATE_ARCHIVE_MONTHLY_PAGED! Link: " + lastURL);
+					lastURL = urlGen.monthlyArchivePaged(ids.get(0).toString(), 
+											Integer.parseInt(ids.get(1).toString()));
 				lastHTMLReply = callHTTPServer(lastURL);
 			}
 			else
@@ -430,8 +471,8 @@ public class WordpressUserSession extends UserSession {
 				else if(Integer.parseInt(ids.get(1).toString()) == -1)
 					lastURL = urlGen.categoryPaged(ids.get(0).toString(), 0);
 				else if(ids.get(0).toString()!="" && ids.get(1).toString()!="")
-					lastURL = urlGen.categoryPaged(ids.get(0).toString(), Integer.parseInt(ids.get(1).toString()));
-				System.out.println(" Request page for STATE_CATEGORY_PAGED! Link: " + lastURL);
+					lastURL = urlGen.categoryPaged(ids.get(0).toString(), 
+									Integer.parseInt(ids.get(1).toString()));
 				lastHTMLReply = callHTTPServer(lastURL);
 			}
 			else
@@ -446,32 +487,15 @@ public class WordpressUserSession extends UserSession {
 				else if(Integer.parseInt(ids.get(1).toString()) == -1)
 					lastURL = urlGen.authorPaged(1, 0);
 				else if(ids.get(0).toString()!="" && ids.get(1).toString()!="")
-					lastURL = urlGen.authorPaged(Integer.parseInt(ids.get(0).toString()), Integer.parseInt(ids.get(1).toString()));
-				System.out.println(" Request page for STATE_AUTHOR_PAGED! Link: " + lastURL);
+					lastURL = urlGen.authorPaged(Integer.parseInt(ids.get(0).toString()), 
+													Integer.parseInt(ids.get(1).toString()));
 				lastHTMLReply = callHTTPServer(lastURL);
 			}
 			else
 				doState(STATE_AUTHOR);
 			break;
-		/* case STATE_LOGIN:
-			lastURL = urlGen.sendCredentials();
-			System.out.println(" Request page for STATE_LOGIN! Link: " + lastURL);
-			lastHTMLReply = callHTTPServer(lastURL);
-			break;
-		
-		case STATE_RSS_ENTRIES:
-			lastURL = urlGen.rssFeed();
-			System.out.println(" Request page for STATE_RSS_ENTRIES! Link: " + lastURL);
-			lastHTMLReply = callHTTPServer(lastURL);
-			break;
-		case STATE_RSS_COMMENTS:
-			lastURL = urlGen.rssCommentsFeed();
-			System.out.println(" Request page for STATE_RSS_COMMENTS! Link: " + lastURL);
-			lastHTMLReply = callHTTPServer(lastURL);
-			break; */
 		case STATE_WORDPRESS_WEBSITE:
 			lastURL = urlGen.wpWebsite();
-			System.out.println(" Request page for STATE_RSS_COMMENTS! Link: " + lastURL);
 			lastHTMLReply = callHTTPServer(lastURL);
 			break;
 		case STATE_ADD_ANONYMOUS_COMMENT:
@@ -489,34 +513,22 @@ public class WordpressUserSession extends UserSession {
 				pageID = extractIDFromHTML(REGEX[STATE_ADD_ANONYMOUS_COMMENT]);
 				post.put("comment_post_ID", pageID + "");
 				lastURL = urlGen.writeComment();
-				System.out.println(" Request page for STATE_ADD_ANONYMOUS_COMMENT! Link: " + lastURL + " POST:" + post);
 				lastHTMLReply = callHTTPServer(lastURL, post);
 			}
 			else
 				doState(STATE_BLOGPOST);
 			break;
 		case STATE_LOGIN_SEND_CREDENTIALS:
-			// user_login or user_email  ;  pass1  or pass2
-			// redirect_to; rememberme
-			// log ; pwd
-			// testcookie  $_COOKIE[TEST_COOKIE]
-			
-			// wp-login.php -> wp_signon() -> user.php
-			
 			lastURL = urlGen.sendCredentials();
 			lastHTMLReply = callHTTPServer(lastURL);
 			
 			post.clear();
-			System.out.println(username+"\n\n");
 			post.put("log", username);
 			post.put("pwd", password);
-			//post.put("user_login", username);
-			//post.put("pass1", password);
 			post.put("action", "login");
 			post.put("testcookie", "true");
 			
 			lastURL = urlGen.sendCredentials();
-			System.out.println(" Request page for STATE_LOGIN_SEND_CREDENTIALS! Link: " + lastURL);
 			lastHTMLReply = callHTTPServer(lastURL, post);
 			loggedStatus = STATUS_LOGGED_IN;
 			transition = transitionLoggedIn;
@@ -524,21 +536,19 @@ public class WordpressUserSession extends UserSession {
 		case STATE_LOG_OUT:
 			if(loggedStatus == STATUS_LOGGED_IN) {
 				keyword = extractWordFromHTML(REGEX[14]);
-				System.out.println("keyword=" + keyword);
 				lastURL = urlGen.logOut(keyword);
-				System.out.println(" Request page for STATE_LOG_OUT! Link: " + lastURL);
 				lastHTMLReply = callHTTPServer(lastURL, post);
 				resetCookies();
 				lastURL = urlGen.logOutFinalStep();
-				System.out.println(" Link: " + lastURL);
 				lastHTMLReply = callHTTPServer(lastURL);
 				loggedStatus = STATUS_LOGGED_OUT;
-				transition = transitionLoggedOut;
+				transition = transitionLoRo;
 			}
 			break;
 		case STATE_ADD_COMMENT:
 			prev = STATE_BLOGPOST;
-			if(loggedStatus == STATUS_LOGGED_IN && (prev==STATE_BLOGPOST || prev==STATE_PAGE || prev==STATE_ADD_COMMENT)) {
+			if(loggedStatus == STATUS_LOGGED_IN && 
+					(prev==STATE_BLOGPOST || prev==STATE_PAGE || prev==STATE_ADD_COMMENT)) {
 				post.clear();
 				post.put("author", username);
 				post.put("email", username + "@"+ username +".com");
@@ -551,14 +561,12 @@ public class WordpressUserSession extends UserSession {
 				pageID = extractIDFromHTML(REGEX[STATE_ADD_ANONYMOUS_COMMENT]);
 				post.put("comment_post_ID", pageID + "");
 				lastURL = urlGen.writeComment();
-				System.out.println(" Request page for STATE_ADD_COMMENT! Link: " + lastURL + " POST:" + post);
 				lastHTMLReply = callHTTPServer(lastURL, post);
 			}
 		break;
 		case STATE_ADD_POST:
 			if(loggedStatus == STATUS_LOGGED_IN) {
 				lastURL = urlGen.newPostForm("post", 0);
-				System.out.println(" Link: " + lastURL);
 				lastHTMLReply = callHTTPServer(lastURL);
 				
 				post.clear();
@@ -592,14 +600,12 @@ public class WordpressUserSession extends UserSession {
 				post.put("publish", "true");
 				
 				lastURL = urlGen.newPostPublish("post", pageID);
-				System.out.println("  Request page for STATE_ADD_POST! Link: " + lastURL + " POST:" + post);
 				lastHTMLReply = callHTTPServer(lastURL, post);
 			}
 		break;		
 		case STATE_ADD_PAGE:
 			if(loggedStatus == STATUS_LOGGED_IN) {
 				lastURL = urlGen.newPostForm("page", 0);
-				System.out.println(" Link: " + lastURL + " PAGE:" + post);
 				lastHTMLReply = callHTTPServer(lastURL);
 	
 				post.clear();
@@ -631,14 +637,12 @@ public class WordpressUserSession extends UserSession {
 				post.put("publish", "true");
 				
 				lastURL = urlGen.newPostPublish("page", pageID);
-				System.out.println("  Request page for STATE_ADD_PAGE! Link: " + lastURL + " PAGE:" + post);
 				lastHTMLReply = callHTTPServer(lastURL, post);
 			}
 		break;
 		case STATE_ADD_CATEGORY:
 			if(loggedStatus == STATUS_LOGGED_IN) {
 				lastURL = urlGen.newCategory();
-				System.out.println(" Request page for STATE_ADD_CATEGORY! Link: " + lastURL);
 				lastHTMLReply = callHTTPServer(lastURL);
 
 				post.clear();
@@ -662,18 +666,16 @@ public class WordpressUserSession extends UserSession {
 				post.put("description", paragraph);
 	
 				lastURL = urlGen.newCategory();
-				System.out.println("  Link: " + lastURL + " POST:" + post);
 				lastHTMLReply = callHTTPServer(lastURL, post);
 			}
 		break;
 		case STATE_ADD_USER:
 			if(userLevel == USER_LEVEL_ADMINISTRATOR) {
 				lastURL = urlGen.newUser();
-				System.out.println(" Link: " + lastURL);
 				lastHTMLReply = callHTTPServer(lastURL);
 				
 				post.clear();
-				keyword = "user"+rand.nextInt()%1000; // !!!!!!!!!!!!
+				keyword = "user"+rand.nextInt()%1000;
 				post.put("user_login", keyword);
 				post.put("email", keyword+"@"+keyword+".com");
 				post.put("pass1", keyword);
@@ -686,13 +688,11 @@ public class WordpressUserSession extends UserSession {
 				post.put("noconfirmation", "true");
 
 				lastURL = urlGen.newUser();
-				System.out.println("  Request page for STATE_ADD_USER! Link: " + lastURL + " USER:" + post);
 				lastHTMLReply = callHTTPServer(lastURL, post);
 			}
 		break;
 		case STATE_DELETE_DATA:
 			if(userLevel == USER_LEVEL_ADMINISTRATOR) {
-				System.out.println(" Request page for STATE_DELETE_DATA! Link: " + lastURL);
 		        String url = "jdbc:mysql://localhost:3306/";
 	
 		        String dbName = "wpblog";
@@ -706,21 +706,13 @@ public class WordpressUserSession extends UserSession {
 	            	for (int i=0;i<DELETE_QUERY.length;i++) { 
 		            	try {
 		            		stmt = ((java.sql.Connection) con).createStatement();
-		            		//String query = "DELETE FROM wp_users WHERE ID <> '1'";
-		            		int deletedRows=stmt.executeUpdate(DELETE_QUERY[i]);
-		            		if ( deletedRows > 0 ) {
-		            			System.out.println("Deleted All Rows In The Table Successfully...");
-		            		}
-		            		else {
-		            			System.out.println("Table already empty.");
-		            		}
+		            		stmt.executeUpdate(DELETE_QUERY[i]);
 		            	}
 		            	catch(SQLException s) {
 		            		System.out.println("Deleted All Rows In  Table Error. ");
 		            		s.printStackTrace();
 		            	}
 	            	}
-	            	// close Connection
 	            	con.close();
 	            }
 	            catch (Exception e) {
@@ -734,7 +726,7 @@ public class WordpressUserSession extends UserSession {
 	}
 	
 	/**
-	 * Emulate a user session using the current transition table.
+	 * Emulate a user session using the current transition table until the controller stops it.
 	 */
 	public void run() {
 		int nbOfTransitions = STATES.length;
@@ -746,66 +738,14 @@ public class WordpressUserSession extends UserSession {
 
 		userLevel = USER_LEVEL_EDITOR;
 		loggedStatus = STATUS_LOGGED_OUT;
-//		try {
-//			Thread.sleep(rand.nextInt(40000) + 1);// max 40 seconds
-//		} catch (InterruptedException e) {
-//		}
 
 		nbOfTransitions = ( rand.nextInt() % ( properties.getMaxNumberOfTransitions() -1 ) ) + 1;
 		startSession = System.currentTimeMillis();
 		// Start from Home Page
-		transitionLoggedOut.resetToInitialState();
+		transitionLoRo.resetToInitialState();
 		transitionLoggedIn.resetToInitialState();
-		transition = transitionLoggedOut;
-		state = transitionLoggedOut.getCurrentState();
-		
-		
-//		try {
-//			for (int i=0; i<16;i++) {
-//				System.out.print("State nr " + i + ": ");
-//				doState(i);
-//			}
-//			if(true)
-//				System.exit(0);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}	
-
-//		try {
-//			doState(STATE_HOMEPAGE);
-//			doState(STATE_PAGE);
-//			doState(STATE_SEARCH);
-//			doState(STATE_SEARCH_PAGED);
-//			doState(STATE_BLOGPOST);
-//			doState(STATE_HOMEPAGE);
-//			doState(STATE_BLOGPOST_PAGED);
-//			doState(STATE_ARCHIVE_MONTHLY);
-//			doState(STATE_ARCHIVE_MONTHLY_PAGED);
-//			doState(STATE_CATEGORY);
-//			doState(STATE_CATEGORY_PAGED);
-//			doState(STATE_WORDPRESS_WEBSITE);
-//			doState(STATE_AUTHOR);
-//			doState(STATE_AUTHOR_PAGED);
-//			doState(STATE_BLOGPOST);
-//			doState(STATE_ADD_ANONYMOUS_COMMENT);	//? 404
-//
-//			doState(STATE_LOGIN_SEND_CREDENTIALS);
-//			doState(STATE_HOMEPAGE);
-//			doState(STATE_BLOGPOST);
-//			doState(STATE_ADD_COMMENT);				//? 404
-//			doState(STATE_ADD_POST);
-//			doState(STATE_ADD_PAGE);
-//			doState(STATE_ADD_USER);
-//			doState(STATE_ADD_CATEGORY);			//? 403 or 302 x 4times
-//			//doState(STATE_DELETE_DATA);
-//			doState(STATE_LOG_OUT);					//? 403
-//
-//			System.exit(0);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		transition = transitionLoRo;
+		state = transitionLoRo.getCurrentState();
 			
 		while (!ClientEmulator.isEndOfSimulation()) {
 			// Compute next step and call HTTP server (also measure time
@@ -816,32 +756,30 @@ public class WordpressUserSession extends UserSession {
 				prev = state;
 			} catch (NullPointerException e) {
 				stats.incrementError(state);
-				transitionLoggedOut.resetToInitialState();
+				transitionLoRo.resetToInitialState();
 				transitionLoggedIn.resetToInitialState();
-				transition = transitionLoggedOut;
+				transition = transitionLoRo;
 				state = transition.getCurrentState();
 				continue;
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
 
-			//if(state!=STATE_LOGIN_SEND_CREDENTIALS && state!=STATE_LOG_OUT) {
-				stopTime = System.currentTimeMillis();
-				lastRequestTime = stopTime - startTime;
-				stats.updateTime(state, lastRequestTime);
-				logDaemon.log(TimeUnit.MILLISECONDS.toSeconds(stopTime - initialTime), lastRequestTime, STATES[state]);
-				logger.info("Requested '" + STATES[state] + "' in " + lastRequestTime + "ms");
-				logger.debug("did '" + lastURL + "' in " + lastRequestTime + "ms");
-			//}
-			
-			// If an error occured, reset to Home page
+			stopTime = System.currentTimeMillis();
+			lastRequestTime = stopTime - startTime;
+			stats.updateTime(state, lastRequestTime);
+			logDaemon.log(TimeUnit.MILLISECONDS.toSeconds(stopTime - initialTime), lastRequestTime, STATES[state]);
+			logger.info("Requested '" + STATES[state] + "' in " + lastRequestTime + "ms");
+			logger.debug("did '" + lastURL + "' in " + lastRequestTime + "ms");
+
+				// If an error occured, reset to Home page
 			if ((lastHTMLReply == null)
 					|| (lastHTMLReply.indexOf("ERROR") != -1)) {
 				logger.warn("Resetting to initial state");
 				stats.incrementError(state);
-				transitionLoggedOut.resetToInitialState();
+				transitionLoRo.resetToInitialState();
 				transitionLoggedIn.resetToInitialState();
-				transition = transitionLoggedOut;
+				transition = transitionLoRo;
 				next = transition.getCurrentState();
 			} else {
 				stats.incrementCount(state);
@@ -851,32 +789,17 @@ public class WordpressUserSession extends UserSession {
 						break;
 					transition.backToPreviousState();
 				}
-				System.out.println(" * CURRENT STATE "+ nbOfTransitions + " : " + transition.getCurrentStateName());
 			}
 			state = next; 
 			nbOfTransitions--;
-					
-//			try {
-//		    	  long sleepTime = transition.TPCWthinkTime();
-//		    	  Thread.sleep(sleepTime);
-//		    	  Logger.getLogger(Thread.currentThread().getName()).info("slept for " + sleepTime + "ms");
-//			 }catch (java.lang.InterruptedException ie) {
-//			    	Logger.getLogger(Thread.currentThread().getName()).error("Thread "+Thread.currentThread().getName()+" has been interrupted.");
-//			 }
 
 		}
-		//if ((transition.isEndOfSession()) || (nbOfTransitions == 0)) {
-			endSession = System.currentTimeMillis();
-			long sessionTime = endSession - startSession;
-			stats.addSessionTime(sessionTime);
-		//}
+		endSession = System.currentTimeMillis();
+		long sessionTime = endSession - startSession;
+		stats.addSessionTime(sessionTime);
 	}
 	
 	boolean stateInvalid(int state) {
-		/*if((state == STATE_ACTION_EDIT || state == STATE_ACTION_DELETE) && actionId == -1)
-			return true;
-		if((state == STATE_TICKET_EDIT || state == STATE_TICKET_DELETE || state == STATE_TICKET_VIEW_DETAILS || state == STATE_ACTION_ADD) && ticketId == -1)
-			return true;*/
 		return false;
 	}
 
