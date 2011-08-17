@@ -1,5 +1,20 @@
 package controller;
 
+/**
+ * Generates formatted messages to be sent to the Workload Generators.
+ * Types of messages:
+ * <pre>
+ * START_SIMULATION	: start simulation of the user sessions
+ * END_SIMULATION	: stop simulation of the user sessions
+ * GET_LOG			: retrieve statistics log
+ * ADD_USERS		: add more user sessions
+ * CREATE_USERS		: create more user accounts
+ * EXIT				: exit program
+ * </pre>
+ *
+ * @author <a href="mailto:a.andronescu@student.vu.nl">Alexandra Andronescu</a> 
+ * @version 1.0
+ */
 public class MessageGenerator {
 	public final int COMMAND_START_SIMULATION = 0;
 	public final int COMMAND_END_SIMULATION = 1;
