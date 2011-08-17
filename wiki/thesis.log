@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.4.7)  15 AUG 2011 16:13
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.4.7)  17 AUG 2011 21:07
 entering extended mode
  %&-line parsing enabled.
 **thesis.tex
@@ -528,22 +528,22 @@ Chapter 5.
 
 
 
-] <src/img/out0.png, id=305, 642.4pt x 481.8pt>
+] <src/img/out0.png, id=301, 642.4pt x 481.8pt>
 File: src/img/out0.png Graphic file (type png)
  <use src/img/out0.png>
-<src/img/out1.png, id=306, 642.4pt x 481.8pt>
+<src/img/out1.png, id=302, 642.4pt x 481.8pt>
 File: src/img/out1.png Graphic file (type png)
  <use src/img/out1.png>
-<src/img/out2.png, id=307, 642.4pt x 481.8pt>
+<src/img/out2.png, id=303, 642.4pt x 481.8pt>
 File: src/img/out2.png Graphic file (type png)
  <use src/img/out2.png>
-<src/img/out3.png, id=308, 642.4pt x 481.8pt>
+<src/img/out3.png, id=304, 642.4pt x 481.8pt>
 File: src/img/out3.png Graphic file (type png)
  <use src/img/out3.png>
-<src/img/out4.png, id=309, 642.4pt x 481.8pt>
+<src/img/out4.png, id=305, 642.4pt x 481.8pt>
 File: src/img/out4.png Graphic file (type png)
  <use src/img/out4.png>
-<src/img/out5.png, id=310, 642.4pt x 481.8pt>
+<src/img/out5.png, id=306, 642.4pt x 481.8pt>
 File: src/img/out5.png Graphic file (type png)
  <use src/img/out5.png>) [18 <./src/img/out0.png (PNG copy)>] [19 <./src/img/ou
 t1.png (PNG copy)> <./src/img/out2.png (PNG copy)>] [20 <./src/img/out3.png (PN
@@ -579,7 +579,7 @@ No file thesis.ind.
 (./src/chapters/chapter5.aux) (./src/chapters/chapter6.aux)) ) 
 Here is how much of TeX's memory you used:
  7824 strings out of 495061
- 110923 string characters out of 1182622
+ 110928 string characters out of 1182622
  191380 words of memory out of 3000000
  10707 multiletter control sequences out of 15000+50000
  14004 words of font info for 33 fonts, out of 3000000 for 9000
@@ -594,9 +594,9 @@ jknappen/ec/ecrm1200.600pk> </home/alexandra/.texmf-var/fonts/pk/ljfour/jknappe
 n/ec/ecbx1728.600pk> </home/alexandra/.texmf-var/fonts/pk/ljfour/jknappen/ec/ec
 bx2488.600pk> </home/alexandra/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1728.
 600pk></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on thesis.pdf (29 pages, 346768 bytes).
+Output written on thesis.pdf (29 pages, 337055 bytes).
 PDF statistics:
- 755 PDF objects out of 1000 (max. 8388607)
+ 757 PDF objects out of 1000 (max. 8388607)
  76 named destinations out of 1000 (max. 500000)
  266 words of extra memory for PDF output out of 10000 (max. 10000000)
 

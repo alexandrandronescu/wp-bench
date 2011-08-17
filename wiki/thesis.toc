@@ -23,5 +23,5 @@
 \contentsline {section}{\numberline {5.1}Evaluation System}{17}{section.5.1}
 \contentsline {section}{\numberline {5.2}Evaluation Results}{17}{section.5.2}
 \contentsline {chapter}{\numberline {6}Conclusion}{22}{chapter.6}
-\contentsline {section}{\numberline {6.1}Future Work}{22}{section.6.1}
-\contentsline {section}{\numberline {6.2}Conclusion}{23}{section.6.2}
+\contentsline {section}{\numberline {6.1}Conclusion}{22}{section.6.1}
+\contentsline {section}{\numberline {6.2}Future Work}{23}{section.6.2}

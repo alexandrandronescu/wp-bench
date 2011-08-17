@@ -1,13 +1,15 @@
 \chapter{Evaluation}
 \label{chapter:chapter5}
 
+After we tested the system locally for correctness, we decided to evaluate the system more thoroughly after the development process was over. We moved the system evaluation to a real world environment. The purpose of the evaluation is to highlight the system's distributed design and to demonstrate it can generate interesting results. We describe the testing configuration in \labelindexref{Section}{sec:evaluation-system} and then we describe the evaluation results in \labelindexref{Section}{sec:evaluation-results}.
+
 \section{Evaluation System}
-\label{sec:testing-system}
+\label{sec:evaluation-system}
 
 For evaluating the system we used a few machines to test if the system components are able to communicate from independent machines. We used one machine for each type of component: one for the WordPress server, one for the Workload Generator, and a third one for the Controller component. Each of them had an AMD Phenom 9600B Quad-Core processor with 2293 MHz CPU and 2GB of memory. For the last part of the tests we used two machines with Intel Core 2Duo Processor with 2.00GHz CPU and 2GB of memory. On one machine was placed the WordPress server, and on the second one the Workload Generator and the Controller.
 
 \section{Evaluation Results}
-\label{sub-sec:test-results}
+\label{sec:evaluation-results}
 
 During system evaluation we varied a number of inputs:
 \begin{itemize}

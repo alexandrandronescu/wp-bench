@@ -1,25 +1,6 @@
 \chapter{Conclusion}
 \label{chapter:chapter6}
 
-\section{Future Work}
-\label{sec:future-work}
-
-The current WordPressBench application is very simple, and performs only the basic functionalities. There are a lot of additions and bug fixes that could be implemented to improve the application and some of them are described below.
-
-The system was first designed with a graphic interface, but due to lack of time it was not implemented anymore. A graphic interface would definitely be very useful because it would ease the input provisioning. The interface must have input controls for setting the number of users and the user should be allowed to set this variable during the simulation time as well. The interface should also allow to set the read-only ratio using percentage of values between 0 and 1.
-
-Another desirable improvement concerns the display as well and represents the display of measurements in real-time. It is not an easy task, because this implies a periodic transmission of log files between Workload Generator and Controller and permanent aggregation of the log files by the Controller. In order to create the impression of real-time simulation, these operations have to be performed very often.
-
-The transmission of messages between Controller and Workload Generators is done through TCP connections. They have initialization overhead and require more connection time, and the messages are not sent very frequently. To improve this issue, the connection could be replaced with a UDP connection in order to exchange short and fast datagrams.
-
-The transition matrix is not generated very realistically. The current matrix contains probabilities based on empirical user behavior. An good improvement which would add realism to the simulation is to have a matrix based on measurements on real user behavior. The probabilities to go to certain states should be measured and put in relation with the read-only ratio.
-
-During the evaluation process we discovered that the login state takes a longer amount of time, leading to spikes in graphics and a response time increase in certain states. If this issue is solved, the results would be more precise and the overall simulation would take less time.
-
-User creation is another step which takes a larger amount of time than expected, and if fixed would have the same results as described above. This problem causes a delayed start of the simulation which can be observed in graphs on OX axis, where the relative time has large values, especially at simulations with larger amounts of users.
-
-Finally, we consider that our evaluation process was a very basic one, and more extensive testing is needed. Using multiple machines for the Workload Generators would be a very good way of testing the scalability, as well as the Controller's capacity to deal with a lot of commands and log files. Flash crowds were one of the system's purpose, but we did not have enough time to simulate them either, so this could be one of the future tasks.
-
 \section{Conclusion}
 \label{sec:system-architecture}
 
@@ -34,3 +15,24 @@ The Workload Generators chose their states randomly from the transition matrices
 We evaluated the system by varying the number of users, the read-only ratio and the simulation time. The average response time per second at each second in time were plotted. We observed that the delay in login time and user creation creates spikes in graphs and delays the simulation start. We leave these issues to be solved in the future, along with a few other improvements.
 
 To improve the current system we suggest a graphic interface which would permit the user to control the simulation process. A great feature of the graphic interface would be the display of results in real-time, or at least at very short time increments. We also propose the replacement of TCP communication with UDP datagrams. We also propose generating the transition matrix more scientifically, using precise measurements.
+
+
+\section{Future Work}
+\label{sec:future-work}
+
+The current WordPressBench application performs basic Web server benchmarking functionalities. It can be improved with new features and bug fixes and we will suggest a few in the following paragraphs.
+
+A graphic interface would definitely be useful because it would ease the input provisioning. The interface must have input controls for setting the number of users and the user should be allowed to set this variable during the simulation time as well. The interface should also allow to set the read-only ratio using percentage of values between 0 and 1.
+
+Another desirable improvement concerns the display as well and represents the display of measurements in real-time. It is not an easy task, because this implies a periodic transmission of log files between Workload Generator and Controller and permanent aggregation of the log files by the Controller. In order to create the impression of real-time simulation, these operations have to be performed very often.
+
+The transmission of messages between Controller and Workload Generators is done through TCP connections. They have initialization overhead and require more connection time, and the messages are not sent very frequently. To improve this issue, the connection could be replaced with a UDP connection in order to exchange short and fast datagrams.
+
+The transition matrix is not generated very realistically. The current matrix contains probabilities based on empirical user behavior. An good improvement which would add realism to the simulation is to have a matrix based on measurements on real user behavior. The probabilities to go to certain states should be measured and put in relation with the read-only ratio.
+
+During the evaluation process we discovered that the login state takes a longer amount of time, leading to spikes in graphics and a response time increase in certain states. If this issue is solved, the results would be more precise and the overall simulation would take less time.
+
+User creation is another step which takes a larger amount of time than expected, and if fixed would have the same results as described above. This problem causes a delayed start of the simulation which can be observed in graphs on OX axis, where the relative time has large values, especially at simulations with larger amounts of users.
+
+Finally, we consider that our evaluation process was a basic one, and more extensive testing is needed. For example we did not have enough time to simulate flash crowds, so this could be one of the future evaluation tasks.
+
