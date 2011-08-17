@@ -2,19 +2,30 @@ package worker;
 
 import java.net.URL;
 
+/**
+ * Class for creating basic URLs.
+ * 
+ * @author <a href="mailto:a.andronescu@student.vu.nl">Alexandra Andronescu</a>
+ */
 public abstract class URLGenerator {
 	protected static final String protocol = "http";
 	protected String webSiteName;
 	protected int webSitePort;
 	protected String scriptPath;
 
+	/**
+	 * Creates a new <code>URLGenerator</code> instance.
+	 *
+	 * @param host WordPress Web server name
+	 * @param port WordPress Web server connection port
+	 * @param ScriptFilesPath WordPress Web server path
+	 */
 	public URLGenerator(String host, int port, String ScriptFilesPath) {
 		webSiteName = host;
 		scriptPath = ScriptFilesPath;
 		webSitePort = port;
 	}
 
-	// /////////////// SETTERS ///////////////////
 	public void setWebSiteName(String host) {
 		webSiteName = host;
 	}
@@ -27,7 +38,6 @@ public abstract class URLGenerator {
 		webSitePort = p;
 	}
 
-	// /////////////// END SETTERS ///////////////////
 	public URL getScriptPath(String s) {
 		return createURL(s);
 	}
