@@ -4,9 +4,9 @@
 \section{Conclusion}
 \label{sec:system-architecture}
 
-The need of proper benchmarks has increased in recent years, because the existent ones are far from bringing the desired results. They have many limitations, like the lack configurability, realism, and scalability.
+The need of proper Web-hosting benchmarks has increased in recent years, because the existent ones are far from bringing the desired results. They have many limitations, like the lack configurability, realism, and scalability.
 
-We designed WordPressBench to surpass the issues of present benchmarks. WordPressBench is a Web-hosting benchmark for testing various Web-server platforms. We designed the system with realistic user simulation in mind, achieved by using a real WordPress website. We aimed to bring scalability by adopting a master-slave architecture which allows the simulation of large number of users. Flexibility was the third goal, achieved by allowing the user to have control over the simulation. The user can set the number of users in real-time, the read-only ratio, or the simulation time.
+We designed WordPressBench to surpass the issues of present benchmarks. WordPressBench is a Web-hosting benchmark for testing various Web-server platforms. We designed the system with realistic user simulation in mind, achieved by using a real WordPress website. We aimed to bring scalability by adopting a master-slave architecture which allows the simulation of large number of users. Flexibility was another goal, achieved by allowing the user to have control over the simulation. The user can set the number of users in real-time, the read-only ratio, or the simulation time.
 
 WordPressBench is based on WordPress platform and emulates users by generating user requests on the fly, using pre-defined transition matrices. The system contains several Workload Generators which send HTTP requests to the WordPress website placed on the system under test. The Controller is the central component, sending commands to the Workload Generators and aggregating the log files.
 
@@ -14,21 +14,21 @@ The Workload Generators chose their states randomly from the transition matrices
 
 We evaluated the system by varying the number of users, the read-only ratio and the simulation time. The average response time per second at each second in time were plotted. We observed that the delay in login time and user creation creates spikes in graphs and delays the simulation start. We leave these issues to be solved in the future, along with a few other improvements.
 
-To improve the current system we suggest a graphic interface which would permit the user to control the simulation process. A great feature of the graphic interface would be the display of results in real-time, or at least at very short time increments. We also propose the replacement of TCP communication with UDP datagrams. We also propose generating the transition matrix more scientifically, using precise measurements.
+To improve the current system we suggest a graphic interface which would permit the user to control the simulation process. A great feature of the graphic interface would be the display of results in real-time, or at least at very short time increments. We also propose the replacement of TCP communication with UDP datagrams. We also suggest generating the transition matrix more scientifically, using more precise measurements.
 
 
 \section{Future Work}
 \label{sec:future-work}
 
-The current WordPressBench application performs basic Web server benchmarking functionalities. It can be improved with new features and bug fixes and we will suggest a few in the following paragraphs.
+The current WordPressBench application performs basic Web-hosting benchmarking functionalities. It can be improved with new features and a few bug fixes and we will suggest some of them in the following paragraphs.
 
-A graphic interface would definitely be useful because it would ease the input provisioning. The interface must have input controls for setting the number of users and the user should be allowed to set this variable during the simulation time as well. The interface should also allow to set the read-only ratio using percentage of values between 0 and 1.
+A graphic interface would definitely be useful because it would ease the input provisioning. The interface must have input controls for setting the number of users and we should be allowed to set this variable during the simulation time as well. The interface should also allow to set the read-only ratio using percentage or values between 0 and 1.
 
 Another desirable improvement concerns the display as well and represents the display of measurements in real-time. It is not an easy task, because this implies a periodic transmission of log files between Workload Generator and Controller and permanent aggregation of the log files by the Controller. In order to create the impression of real-time simulation, these operations have to be performed very often.
 
 The transmission of messages between Controller and Workload Generators is done through TCP connections. They have initialization overhead and require more connection time, and the messages are not sent very frequently. To improve this issue, the connection could be replaced with a UDP connection in order to exchange short and fast datagrams.
 
-The transition matrix is not generated very realistically. The current matrix contains probabilities based on empirical user behavior. An good improvement which would add realism to the simulation is to have a matrix based on measurements on real user behavior. The probabilities to go to certain states should be measured and put in relation with the read-only ratio.
+The transition matrix is not generated very realistically. The current matrix contains probabilities based on empirical user behavior. An good improvement which would add realism to the simulation is to have a matrix based on measurements on real user behavior. The probabilities to go to certain states should be measured and related with the read-only ratio.
 
 During the evaluation process we discovered that the login state takes a longer amount of time, leading to spikes in graphics and a response time increase in certain states. If this issue is solved, the results would be more precise and the overall simulation would take less time.
 

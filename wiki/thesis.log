@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.4.7)  17 AUG 2011 21:07
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.4.7)  18 AUG 2011 11:42
 entering extended mode
  %&-line parsing enabled.
 **thesis.tex
@@ -584,7 +584,7 @@ Here is how much of TeX's memory you used:
  10707 multiletter control sequences out of 15000+50000
  14004 words of font info for 33 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 45i,12n,45p,1409b,590s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 45i,12n,45p,1588b,590s stack positions out of 5000i,500n,10000p,200000b,50000s
  </home/alexandra
 /.texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1200.600pk> </home/alexandra/.texmf
 -var/fonts/pk/ljfour/jknappen/ec/ecss1200.600pk> </home/alexandra/.texmf-var/fo
@@ -594,7 +594,7 @@ jknappen/ec/ecrm1200.600pk> </home/alexandra/.texmf-var/fonts/pk/ljfour/jknappe
 n/ec/ecbx1728.600pk> </home/alexandra/.texmf-var/fonts/pk/ljfour/jknappen/ec/ec
 bx2488.600pk> </home/alexandra/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1728.
 600pk></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on thesis.pdf (29 pages, 337055 bytes).
+Output written on thesis.pdf (29 pages, 337360 bytes).
 PDF statistics:
  757 PDF objects out of 1000 (max. 8388607)
  76 named destinations out of 1000 (max. 500000)
