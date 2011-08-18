@@ -114,8 +114,8 @@ public class ClientEmulator
 		long initialTime = System.currentTimeMillis();
 		WordpressUserSession  adminSession = new WordpressUserSession(client.urlGen, client.logDaemon, new Dictionary(dict), client.properties, client.transitionTableLoggedOut, client.transitionTableLoggedIn, client.stats, "admin", initialTime);
 		
-		System.out.println("Deleting database contents...");
-		adminSession.deleteWebsiteData();
+		System.out.println("Deleting database users...");
+		adminSession.deleteWebsiteUsers();
 				
 		ConnectionDaemon connectionDaemon = new ConnectionDaemon(client.properties.getTcpPort());
 		
@@ -140,6 +140,11 @@ public class ClientEmulator
 					if (piece.hasMoreElements())
 						readWrites = Double.parseDouble(piece.nextToken());
 					
+					if ( readWrites < 0.8 ) {
+						System.out.println("Deleting database contents...");
+						adminSession.deleteWebsiteData();
+					}
+					
 					client.logDaemon.start();
 					
 					client.nbOfUsers = nbOfUsersMax - nbOfUsersMin;
@@ -151,7 +156,7 @@ public class ClientEmulator
 						if ( readWritesCount > 0 ) {
 							sessions.add(i, new WordpressUserSession(client.urlGen, client.logDaemon, 
 									new Dictionary(dict), client.properties, client.transitionTableReadOnly, 
-									null, client.stats, username, initialTime ) );
+									client.transitionTableLoggedIn, client.stats, username, initialTime ) );
 							readWritesCount--;
 						}
 						else
