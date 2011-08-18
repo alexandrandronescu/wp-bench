@@ -50,7 +50,9 @@ public class WordpressUserSession extends UserSession {
 	public final int STATE_ADD_CATEGORY = 19;
 	
 	public final int STATE_ADD_USER = 20;
-	public final int STATE_DELETE_DATA = 21;
+	public final int STATE_DELETE_USERS = 21;
+	public final int STATE_DELETE_DATA = 22;
+	
 	
 	public static String STATES[] = {
 		"STATE_HOMEPAGE",
@@ -74,6 +76,7 @@ public class WordpressUserSession extends UserSession {
 		"STATE_ADD_PAGE",
 		"STATE_ADD_CATEGORY",
 		"STATE_ADD_USER",
+		"STATE_DELETE_USERS",
 		"STATE_DELETE_DATA"
 		};
 	
@@ -331,6 +334,30 @@ public class WordpressUserSession extends UserSession {
 			return username;
 		}
 		return null;
+	}
+	
+	/**
+	 * Deletes all user data from WordPress server MySQL database.
+	 * 
+	 */
+	public void deleteWebsiteUsers() {
+		long stopTime, startTime;
+		userLevel = USER_LEVEL_ADMINISTRATOR;
+		username = "admin";
+		password = username;
+		loggedStatus = STATUS_LOGGED_OUT;
+		try {
+			startTime = System.currentTimeMillis();
+			doState(STATE_LOGIN_SEND_CREDENTIALS);
+			doState(STATE_DELETE_USERS);
+			doState(STATE_HOMEPAGE);
+			doState(STATE_LOG_OUT);
+			stopTime = System.currentTimeMillis();
+			logDaemon.log(TimeUnit.MILLISECONDS.toSeconds(stopTime - initialTime), 
+							(stopTime - startTime), "INIT");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -691,6 +718,35 @@ public class WordpressUserSession extends UserSession {
 				lastHTMLReply = callHTTPServer(lastURL, post);
 			}
 		break;
+		case STATE_DELETE_USERS:
+			if(userLevel == USER_LEVEL_ADMINISTRATOR) {
+		        String url = "jdbc:mysql://localhost:3306/";
+	
+		        String dbName = "wpblog";
+		        String userName = "root";
+		        String password = "root";
+	            java.sql.Connection con;
+	            Statement stmt;
+	            try {
+	            	Class.forName("com.mysql.jdbc.Driver").newInstance ();
+	            	con = DriverManager.getConnection(url+dbName, userName, password);
+	            	for (int i=0;i<2;i++) { 
+		            	try {
+		            		stmt = ((java.sql.Connection) con).createStatement();
+		            		stmt.executeUpdate(DELETE_QUERY[i]);
+		            	}
+		            	catch(SQLException s) {
+		            		System.out.println("Deleted All Rows In  Table Error. ");
+		            		s.printStackTrace();
+		            	}
+	            	}
+	            	con.close();
+	            }
+	            catch (Exception e) {
+	            	e.printStackTrace();
+	            }
+			}
+		break;
 		case STATE_DELETE_DATA:
 			if(userLevel == USER_LEVEL_ADMINISTRATOR) {
 		        String url = "jdbc:mysql://localhost:3306/";
@@ -703,7 +759,7 @@ public class WordpressUserSession extends UserSession {
 	            try {
 	            	Class.forName("com.mysql.jdbc.Driver").newInstance ();
 	            	con = DriverManager.getConnection(url+dbName, userName, password);
-	            	for (int i=0;i<DELETE_QUERY.length;i++) { 
+	            	for (int i=2;i<DELETE_QUERY.length;i++) { 
 		            	try {
 		            		stmt = ((java.sql.Connection) con).createStatement();
 		            		stmt.executeUpdate(DELETE_QUERY[i]);
