@@ -44,6 +44,7 @@ public class Controller {
 		this.usersNb = properties.getUsersNb();
 		this.slavesNb = properties.getSlavesNb();
 		this.port = properties.getPort();
+		this.readWrite = properties.getReadWrite();
 		
 		MessageGenerator msgGen = new MessageGenerator(); 
 		taskPool = new TaskDaemon[slavesNb];
